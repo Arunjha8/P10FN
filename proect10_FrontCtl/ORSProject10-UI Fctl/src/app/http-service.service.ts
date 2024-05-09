@@ -28,6 +28,7 @@ export class HttpServiceService {
   }
 
   get(endpoint, callback) {
+    var self = this;
     return this.httpClient.get(endpoint, { withCredentials: true }).subscribe((data) => {
       console.log('Data :: ' + data);
       callback(data);
@@ -36,6 +37,7 @@ export class HttpServiceService {
       console.log('ORS Error--', error);
       if (error.status === 401) {
         localStorage.clear();
+        self.userparams.url = this.router.url; 
         this.router.navigate(['/login'], {
           queryParams: { errorMessage: error.error.error },
         })
